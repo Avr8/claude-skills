@@ -34,7 +34,10 @@ Present a table before touching any branches:
 
 Call out anything that can't be split cleanly (e.g. a migration and the code that requires it) and how you'll handle it (feature flag, keep together, or add a temporary compatibility shim).
 
-For **Terraform / IaC**, split by blast radius: new resources unused by anything → modules/variables → wiring that changes existing resources → deletions. Never put a destroy in the same PR as the resource that replaces it unless the plan shows it's an in-place swap. Note which PRs need `terraform plan` attached.
+For **Terraform / IaC**, split by blast radius: new resources unused by anything → modules/variables → wiring that changes existing resources → deletions. Never put a destroy in the same PR as the resource that replaces it unless the plan shows it's an in-place swap. Note which PRs need `terraform plan` attached. Also check how each deletion actually happens:
+- **Deleting a Terragrunt unit directory does not destroy its resources.** `run-all` simply stops seeing the unit, and the resources keep running unmanaged. Run `terragrunt destroy` in that unit first, then remove the directory in the PR, or remove the resource blocks inside it so the plan shows the destroy.
+- Remove `dependency` blocks and `mock_outputs` that point at the thing being deleted, or the next plan fails.
+- Split network rule changes into **opening** (early, before the new thing needs them) and **tightening** (after the old thing is gone), since tightening too early breaks live traffic.
 
 ### 3. Build the stack
 Prefer this approach — it works regardless of how messy the original commits are:

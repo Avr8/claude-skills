@@ -13,6 +13,8 @@ Make writing sound like a specific person wrote it on purpose. The goal is not "
 2. **Cut, then fix.** Most of the improvement comes from deletion. Remove a sentence and see if anything was lost.
 3. **Keep the voice.** If the author writes casually, stay casual. If they use British spelling, keep it. Don't swap their vocabulary for yours.
 4. **Preserve facts exactly** — numbers, names, links, technical terms, quotes. Never invent specifics to make prose "concrete"; if a claim needs an example the author didn't give, mark it `[example?]`.
+5. **Don't resolve ambiguity by guessing.** If the original is vague about the actual news ("a new journey": leaving? promoted? new team?), keep a placeholder for it (`[the news: new role at X / leaving Y?]`) and ask in one line. Don't pick one reading and write it as fact. The same goes for feelings and outcomes the author never stated ("I'm proud of…", "I learned so much…").
+6. **Don't swap one tell for another.** Replacing "thrilled to share" with "Some news:" or "Big update:" is still a template opener. Start with the fact itself.
 
 ## What to look for
 
@@ -36,4 +38,4 @@ If the user asks for a score, give a 1–10 "slop score" before and after with o
 
 ## When not to edit heavily
 
-Legal text, quoted material, API docs with required phrasing, and anything where the user says "light touch". For those, flag issues and fix only the clear ones.
+Legal text, quoted material, API docs with required phrasing, and anything where the user says "light touch". For those, flag issues and fix only the clear ones. "Light touch" means keeping the author's sentence structure and every non-slop piece of information. For example, "for VoIP developers" tells the reader who it's for, so keep it in plain words rather than deleting it with the hype around it.

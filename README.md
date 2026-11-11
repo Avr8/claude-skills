@@ -52,6 +52,24 @@ Every skill in this repo:
 - asks before doing anything irreversible or visible to others (push, publish, apply, rewrite history)
 - ships test cases under `evals/` that run with `claude plugin eval`
 
+## How these were tested
+
+Each skill has test prompts under `evals/`. Every prompt was run twice, once with the skill and once without (plain Claude), and an independent grader checked each answer against specific assertions such as "timeline converted to UTC", "no branches created before approval", "no invented facts" or "table has visible borders". Two rounds were run. Round 1's findings went back into the skills, and the tests were made harder for round 2.
+
+| Skill | With skill | Without | What the skill changes |
+|---|---|---|---|
+| incident-postmortem | 9/10 | 4/10 | UTC timeline, roles not names, owner + priority on every action, no outside facts |
+| pr-explainer-quiz | 8/8 | 5/8 | Diagram + one-at-a-time quiz; respects "just the summary" |
+| codebase-viva-prep | 7/7 | 5/7 | ~45 `file:line` references, all verified correct |
+| oss-ready | 12/12 | 10/12 | Back up before rewriting history; asks who owns the code |
+| stacked-pr-splitter | 9/10 | 8/10 | Proposes a plan and waits; without it Claude built 6 branches unasked |
+| md-to-doc | 8/8 | 7/8 | Word tables get visible borders |
+| anti-slop-editor | 8/9 | 8/9 | Placeholders instead of invented details |
+| terraform-plan-reviewer | 13/13 | 13/13 | Same score; the skill flags partial-apply risk and rates disabled protections critical |
+| **Total** | **74/77 (96%)** | **60/77 (78%)** | |
+
+Small sample (two prompts per skill, one run each), so treat it as a sanity check, not a benchmark. Run the tests yourself with `claude plugin eval skills/<name> --allow-tools Write,Edit,Bash --scaffold`.
+
 ## Contributing
 
 Ideas and PRs are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and start from [`template/`](template). If you want a skill that doesn't exist yet, open an issue with the **Skill request** template.

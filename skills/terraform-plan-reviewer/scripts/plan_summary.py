@@ -139,6 +139,8 @@ def main():
     summary = " · ".join(f"{counts[k]} {k}" for k in order if counts[k]) or "no changes"
     other = {k: v for k, v in counts.items() if k not in order}
     print(f"SUMMARY: {summary}" + (f" · other: {dict(other)}" if other else ""))
+    reps = counts["replace"] + counts["replace(cbd)"]
+    print(f"TERRAFORM_EQUIVALENT: Plan: {counts['create'] + reps} to add, {counts['update']} to change, {counts['destroy'] + reps} to destroy.")
 
     drift = data.get("resource_drift") or []
     if drift:

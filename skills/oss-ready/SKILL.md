@@ -32,6 +32,8 @@ For any real secret — even one that's "only in history":
 Before suggesting a license holder, ask who owns the code. If the README, hostnames, package names or emails point to a company ("acme", an internal domain, a work email in the commits), the copyright probably belongs to the employer or client. Open-sourcing it may need their approval, and the LICENSE should name them. Raise this as a NEEDS DECISION item.
 
 ## 3. Add the community files
+Files you write must be ready to publish: no leftover placeholders like `<EMAIL>`. If a value is missing, prefer a route that needs none (GitHub private vulnerability reporting) and name the gap in your reply. Never put the internal company/org name or internal hostnames in new files.
+
 Ask which license if not specified (suggest MIT for "just let people use it", Apache-2.0 if patents matter, GPL-3.0 if they want copyleft). Create, if missing:
 - `LICENSE` (exact SPDX text, correct year + holder name)
 - `README.md` — what it is, a 30-second quickstart, requirements, license badge. Rewrite internal jargon.

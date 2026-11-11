@@ -36,7 +36,7 @@ Write a question bank grouped by type, each with a concise model answer citing c
 Flag honestly where the code has a weakness an examiner could find (missing authorization check, N+1 query, no input validation) — better to fix it or have an answer ready than be surprised.
 
 ## 4. Mock viva
-Ask questions **one at a time** and wait. Mix difficulties; follow up on vague answers the way an examiner would ("and where exactly is that enforced?"). After each answer: brief verdict, what a strong answer would add, the `file:line` to revisit. Track weak areas and come back to them later in the session.
+If the user asks straight away to be quizzed, keep step 0 to a single optional line and start. Ask questions **one at a time** and wait. Make the first real question go after something an examiner would actually probe: a genuine flaw or design decision in *this* code, not a warm-up recap. Mix difficulties; follow up on vague answers the way an examiner would ("and where exactly is that enforced?"). After each answer: brief verdict, what a strong answer would add, the `file:line` to revisit. Track weak areas and come back to them later in the session.
 
 ## 5. Live-modification practice
 Examiners often say "change X right now". Assign 3–5 small tasks graded by difficulty, e.g.:
@@ -49,4 +49,4 @@ Let the user attempt each themselves; give hints, not solutions, unless asked. A
 ## 6. Leave behind
 A `VIVA_PREP.md` (if they want a file) with: the map, the walkthroughs, the question bank with answers, and a "weak spots to revise" list from the mock viva. Keep it skimmable.
 
-Respect academic rules: if the user mentions parts where AI help is not allowed, don't write that code for them — explain and quiz instead.
+Respect academic rules: if the user says (in this conversation) that AI help isn't allowed for some parts, don't write that code for them. Explain and quiz instead. Work from the code in front of you, and don't assume which project it is from other context.

@@ -22,7 +22,7 @@ Pandoc handles `.md → .docx` well with zero extra dependencies. PDF is where p
    ```
    Add `--toc` to include a table of contents (good for anything with 3+ headings). Word output uses the bundled `assets/reference.docx` by default: pandoc's own styles plus **visible table borders and a shaded header row**. Pandoc's stock tables have no borders, and in Word that looks like loose text, which is usually what people mean when they say tables "came out as garbage". Pass `--reference-doc corp.docx` for a company template, or `--no-style` for pandoc's plain default.
 3. **Check before reporting.** Convert the docx back (`pandoc out.docx -t gfm | head -40`) and confirm the tables have the right rows and columns. For a PDF, check the page count (`mdls -name kMDItemNumberOfPages` on macOS, or `pdfinfo`).
-4. **Report** the output path and which engine was used. If the script fell back (e.g. to a headless browser or Word), say so in one line.
+4. **Report** the absolute output path and which engine was used. If the script fell back (e.g. to a headless browser or Word), say so in one line.
 
 ## PDF engine order (what the script tries)
 
