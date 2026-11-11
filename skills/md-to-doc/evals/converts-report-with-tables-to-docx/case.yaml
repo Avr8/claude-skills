@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: converts-report-with-tables-to-docx
+expected_outcome: |
+  A status-report.docx is produced and its tables survive as real Word tables.
+context:
+  scaffold_script: place-files.sh

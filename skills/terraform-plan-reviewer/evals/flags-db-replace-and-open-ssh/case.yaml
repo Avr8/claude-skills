@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: flags-db-replace-and-open-ssh
+expected_outcome: |
+  Verdict: don't apply. Flags DB replacement forced by collation, SSH open to *, Owner role, purge protection disabled; tag change as noise.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: text-plan-explain-replace
+expected_outcome: |
+  Identifies location as the forcing attribute, warns about data loss, suggests reverting location.

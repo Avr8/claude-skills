@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: linkedin-post-cleanup
+expected_outcome: |
+  A rewritten post without stock AI phrasing that keeps the factual content (3 years, Northwind, telephony infrastructure).

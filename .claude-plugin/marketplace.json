@@ -1,0 +1,77 @@
+{
+  "name": "avr8-skills",
+  "owner": {
+    "name": "Avr8",
+    "url": "https://github.com/Avr8"
+  },
+  "metadata": {
+    "description": "Practical, tested Agent Skills for Claude Code and Claude.ai — docs, code review, infra and learning workflows.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "md-to-doc",
+      "description": "Markdown → Word/PDF with intact tables and an automatic PDF-engine fallback chain (typst, LaTeX, LibreOffice, MS Word).",
+      "category": "documents",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/md-to-doc"]
+    },
+    {
+      "name": "anti-slop-editor",
+      "description": "Edit prose so it stops sounding AI-generated, keeping the author's meaning and voice.",
+      "category": "writing",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/anti-slop-editor"]
+    },
+    {
+      "name": "stacked-pr-splitter",
+      "description": "Split a large branch/PR into a lossless stack of small, independently mergeable PRs.",
+      "category": "development",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/stacked-pr-splitter"]
+    },
+    {
+      "name": "pr-explainer-quiz",
+      "description": "Explain a PR with a diagram and risk notes, then quiz the reviewer to confirm they understood it.",
+      "category": "development",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/pr-explainer-quiz"]
+    },
+    {
+      "name": "oss-ready",
+      "description": "Get a repo ready to go public: secret + history scan, internal-reference sweep, license and community files.",
+      "category": "development",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/oss-ready"]
+    },
+    {
+      "name": "incident-postmortem",
+      "description": "Turn incident threads, alerts and metrics into a blameless postmortem with a UTC timeline and owned action items.",
+      "category": "operations",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/incident-postmortem"]
+    },
+    {
+      "name": "terraform-plan-reviewer",
+      "description": "Review Terraform/OpenTofu/Terragrunt plans: flags data-loss replaces, IAM widening, open ingress, disabled protections.",
+      "category": "operations",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/terraform-plan-reviewer"]
+    },
+    {
+      "name": "codebase-viva-prep",
+      "description": "Prepare to defend a codebase in a viva or interview: architecture map, predicted questions, mock viva, live-change drills.",
+      "category": "learning",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/codebase-viva-prep"]
+    }
+  ]
+}

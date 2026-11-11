@@ -1,0 +1,12 @@
+#inc-voice-eu1  (timestamps IST, UTC+5:30)
+[2026-03-14 14:20] deploy-bot: config change "capture-buffer-tuning" applied to eu1 by on-call (change #4471)
+[2026-03-14 14:32] alertmanager: FIRING HighCPU media-gw-central-eu1 (cpu > 95% for 10m)
+[2026-03-14 14:35] alertmanager: FIRING CallSetupFailureRate eu1 > 5%
+[2026-03-14 14:41] priya (on-call SRE): ack, looking. central box pinned at 100% cpu
+[2026-03-14 14:58] priya: sensor pods OOMKilled in a loop, 6 restarts in 15m
+[2026-03-14 15:10] rahul (telephony lead): joining. call setup failures ~12% of eu1 traffic
+[2026-03-14 15:26] priya: suspect #4471 — it raised capture buffer 4x. rolling back
+[2026-03-14 15:34] deploy-bot: rollback of #4471 applied to eu1
+[2026-03-14 15:49] alertmanager: RESOLVED CallSetupFailureRate eu1
+[2026-03-14 16:05] alertmanager: RESOLVED HighCPU media-gw-central-eu1
+[2026-03-14 16:10] rahul: ~38k calls failed setup during the window. config change wasn't load-tested; no staging for media gateway.

@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: maps-flask-app-and-predicts-questions
+expected_outcome: |
+  Architecture map grounded in the code plus a question bank with answers citing file:line, including the missing authorization check.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: terraform-split-by-blast-radius
+expected_outcome: |
+  Splits by blast radius: additive resources first, then changes to existing resources, deletion last; mentions attaching plans.

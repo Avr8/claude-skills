@@ -1,0 +1,15 @@
+name: Skill request
+description: Suggest a skill you'd use
+labels: [skill-request]
+body:
+  - type: textarea
+    attributes:
+      label: What task do you keep repeating?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What does a great result look like?
+  - type: textarea
+    attributes:
+      label: Example input (redact anything sensitive)

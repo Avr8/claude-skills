@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: skip-quiz-when-asked
+expected_outcome: |
+  Explanation and risk notes only, no quiz.
+context:
+  scaffold_script: place-files.sh

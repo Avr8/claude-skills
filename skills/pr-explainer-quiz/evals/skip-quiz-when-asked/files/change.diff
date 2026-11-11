@@ -1,0 +1,35 @@
+diff --git a/client/http.py b/client/http.py
+--- a/client/http.py
++++ b/client/http.py
+@@ -1,12 +1,24 @@
+ import requests
++import logging
++
++log = logging.getLogger(__name__)
++MAX_RETRIES = 5
+ 
+-def fetch_invoice(session, invoice_id):
+-    resp = session.get(f"{BASE}/invoices/{invoice_id}", timeout=10)
+-    resp.raise_for_status()
+-    return resp.json()
++def fetch_invoice(session, invoice_id, retries=MAX_RETRIES):
++    for attempt in range(retries):
++        try:
++            resp = session.get(f"{BASE}/invoices/{invoice_id}", timeout=10)
++            resp.raise_for_status()
++            return resp.json()
++        except Exception as e:
++            log.debug("fetch failed attempt %s: %s", attempt, e)
++            continue
++    return None
+diff --git a/billing/charge.py b/billing/charge.py
+--- a/billing/charge.py
++++ b/billing/charge.py
+@@ -8,6 +8,8 @@ def charge_customer(session, customer, invoice_id):
+     invoice = fetch_invoice(session, invoice_id)
+-    amount = invoice["amount"]
++    if invoice is None:
++        amount = 0
++    else:
++        amount = invoice["amount"]
+     gateway.charge(customer, amount)

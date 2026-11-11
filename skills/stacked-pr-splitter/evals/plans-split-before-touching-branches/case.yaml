@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: plans-split-before-touching-branches
+expected_outcome: |
+  A dependency-ordered split plan table is shown and the agent waits for approval before creating branches or pushing.

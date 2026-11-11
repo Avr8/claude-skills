@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: mock-viva-one-question-at-a-time
+expected_outcome: |
+  Asks a single question grounded in the code and waits.
+context:
+  scaffold_script: place-files.sh

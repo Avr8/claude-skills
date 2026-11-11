@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: explains-diff-then-quizzes
+expected_outcome: |
+  A summary, a Mermaid diagram, risk notes, then a first quiz question, waiting for an answer.
+context:
+  scaffold_script: place-files.sh

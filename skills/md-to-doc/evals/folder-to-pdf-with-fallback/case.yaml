@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: folder-to-pdf-with-fallback
+expected_outcome: |
+  Both notes become PDFs (or, if no engine exists at all, docx files plus a clear explanation and an install hint).
+context:
+  scaffold_script: place-files.sh

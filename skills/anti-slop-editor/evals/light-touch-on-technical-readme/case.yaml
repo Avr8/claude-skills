@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: light-touch-on-technical-readme
+expected_outcome: |
+  A shorter intro that keeps 'SIP' and 'RFC 3261' exactly and removes filler without rewriting the voice.

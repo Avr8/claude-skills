@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: postmortem-from-chat-log
+expected_outcome: |
+  Blameless postmortem with a UTC timeline (times converted from IST), impact, trigger vs root cause, and owned dated actions.
+context:
+  scaffold_script: place-files.sh
