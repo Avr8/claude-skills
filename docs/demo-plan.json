@@ -1,0 +1,8 @@
+{"format_version":"1.2","resource_changes":[
+{"address":"azurerm_mssql_database.main","type":"azurerm_mssql_database","change":{"actions":["delete","create"],"before":{"name":"db","collation":"SQL_Latin1_General_CP1_CI_AS"},"after":{"name":"db","collation":"Latin1_General_100_CI_AS"},"replace_paths":[["collation"]]}},
+{"address":"azurerm_network_security_rule.ssh","type":"azurerm_network_security_rule","change":{"actions":["create"],"before":null,"after":{"source_address_prefix":"*","destination_port_range":"22","access":"Allow"}}},
+{"address":"azurerm_role_assignment.ci","type":"azurerm_role_assignment","change":{"actions":["create"],"before":null,"after":{"role_definition_name":"Owner","scope":"/subscriptions/x"}}},
+{"address":"azurerm_key_vault.kv","type":"azurerm_key_vault","change":{"actions":["update"],"before":{"purge_protection_enabled":true,"tags":{}},"after":{"purge_protection_enabled":false,"tags":{}}}},
+{"address":"azurerm_resource_group.rg","type":"azurerm_resource_group","change":{"actions":["update"],"before":{"name":"rg","tags":{"a":"1"}},"after":{"name":"rg","tags":{"a":"2"}}}},
+{"address":"azurerm_linux_web_app.app","type":"azurerm_linux_web_app","change":{"actions":["create"],"before":null,"after":{"name":"app"}}}
+]}
