@@ -1,0 +1,9 @@
+body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 11pt; line-height: 1.45; max-width: 46em; margin: 0 auto; color: #111; }
+h1, h2, h3 { line-height: 1.2; margin-top: 1.4em; }
+table { border-collapse: collapse; margin: 1em 0; width: auto; }
+th, td { border: 1px solid #a6a6a6; padding: 4px 8px; vertical-align: top; }
+th { background: #e8eef4; font-weight: 600; }
+td { font-variant-numeric: tabular-nums; }
+code, pre { font-family: Menlo, Consolas, monospace; font-size: 9.5pt; }
+pre { background: #f5f5f5; padding: 8px 10px; overflow-wrap: anywhere; white-space: pre-wrap; }
+@page { margin: 18mm; }

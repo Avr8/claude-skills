@@ -27,7 +27,7 @@ It prints action counts, every destroy/replace with the attributes forcing repla
 **Critical — stop and confirm with the user**
 - Destroy or replace of anything holding data: databases (RDS, Azure SQL/Postgres/MySQL, Cloud SQL, Cosmos, DynamoDB), storage accounts/buckets, disks/volumes, Key Vaults/KMS keys, Redis, Kafka/Event Hubs, file shares, DNS zones.
 - Replace of networking that everything depends on: VNets/VPCs, subnets, gateways, load balancers, public IPs (IP changes break allowlists and DNS).
-- `prevent_destroy` removed, `deletion_protection`/`purge_protection` set false, backup retention lowered, `skip_final_snapshot = true`.
+- `prevent_destroy` removed, `deletion_protection`/`purge_protection` set false, backup retention lowered, `skip_final_snapshot = true`. (Azure Key Vault purge protection cannot be turned off once it's on, so that apply will fail partway. Say so, because the resources applied before it will already have changed.)
 - Kubernetes cluster or node pool replacement.
 
 **High**
@@ -44,7 +44,14 @@ It prints action counts, every destroy/replace with the attributes forcing repla
 ## 3. Explain replacements
 For every `-/+` or `+/-`, name the attribute(s) that forced it (the script reads `replace_paths`; in text, look for `# forces replacement`) and say whether it can be avoided — e.g. `lifecycle { ignore_changes = [...] }`, a `moved` block for a renamed address, `create_before_destroy` to avoid downtime, or reverting an accidental change to an immutable field (name, location, zone, SKU tier).
 
+## 3b. Things reviewers often miss
+- **Partial applies.** Terraform applies independent resources in parallel. If one change is guaranteed to fail (e.g. disabling Key Vault purge protection, a name already taken), the others may already have run. A destroy-and-recreate of a database can complete *before* the failing step. Say this whenever the plan mixes a likely failure with a destructive change.
+- **Recommend guardrails** on every data-bearing resource in the plan: `lifecycle { prevent_destroy = true }`, plus a cloud-side delete lock (Azure `CanNotDelete`, AWS deletion protection, GCP `deletion_protection`).
+- **Globally unique names** (storage accounts, S3 buckets, Key Vaults) mean `create_before_destroy` can't avoid downtime, and a freshly deleted name may not be reusable straight away.
+- **Counts must match.** If you say "6 changes, 3 serious", list exactly 3.
+
 ## 4. Output
+Match the question. For "is this safe to apply?", use the full format below. For a narrow question ("why is it replacing X?"), answer it directly first (cause, consequence, fix) in a few short paragraphs, and add a one-line verdict at the end instead of the full report.
 ```
 VERDICT: ⛔ Don't apply yet | ⚠️ Apply with care | ✅ Looks safe
 Summary: 3 add · 5 change · 1 replace · 0 destroy  (module.x, module.y)

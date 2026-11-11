@@ -117,7 +117,8 @@ def main():
                 if leaf in PROTECTION_KEYS and val == PROTECTION_KEYS[leaf]:
                     prev = dict(walk(before)).get(path)
                     if prev != val:
-                        findings["HIGH"].append(f"{addr}: {path} = {json.dumps(val)}" + (f" (was {json.dumps(prev)})" if prev is not None else ""))
+                        sev = "CRITICAL" if leaf in ("deletion_protection", "purge_protection_enabled", "prevent_destroy", "skip_final_snapshot") else "HIGH"
+                        findings[sev].append(f"{addr}: {path} = {json.dumps(val)}" + (f" (was {json.dumps(prev)})" if prev is not None else ""))
                 if leaf in ("backup_retention_period", "retention_days", "backup_retention_days") and isinstance(val, (int, float)):
                     prev = dict(walk(before)).get(path)
                     if isinstance(prev, (int, float)) and val < prev:

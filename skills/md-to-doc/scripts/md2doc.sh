@@ -19,22 +19,59 @@ if [[ -d "$IN" ]]; then
   FMT="$1"; shift
 fi
 
+SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Default Word template: pandoc's own, plus visible table borders and a shaded header row.
+# Pandoc's stock tables have no borders, which is why tables "look broken" in Word.
+REFDOC="$SKILL_DIR/assets/reference.docx"
+CSS="$SKILL_DIR/assets/print.css"
+
 EXTRA=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --toc) EXTRA+=(--toc) ;;
-    --reference-doc) EXTRA+=(--reference-doc "$2"); shift ;;
+    --reference-doc) REFDOC="$2"; shift ;;
+    --no-style) REFDOC="" ;;
     *) die "unknown option: $1" ;;
   esac
   shift
 done
 
-# Read input from file's own directory so relative image paths resolve.
 COMMON=(--from=markdown+pipe_tables+grid_tables+yaml_metadata_block+task_lists --standalone)
 
 to_docx() { # in out
-  local in="$1" out="$2"
-  pandoc "$in" "${COMMON[@]}" ${EXTRA[@]+"${EXTRA[@]}"} --resource-path="$(dirname "$in")" -o "$out"
+  local in="$1" out="$2" ref=()
+  [[ -n "$REFDOC" && -f "$REFDOC" ]] && ref=(--reference-doc "$REFDOC")
+  # --resource-path: resolve relative images from the input file's own directory.
+  pandoc "$in" "${COMMON[@]}" ${EXTRA[@]+"${EXTRA[@]}"} ${ref[@]+"${ref[@]}"} --resource-path="$(dirname "$in")" -o "$out"
+}
+
+find_chrome() {
+  local c
+  for c in "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+           "/Applications/Chromium.app/Contents/MacOS/Chromium" \
+           "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" \
+           "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"; do
+    [[ -x "$c" ]] && { echo "$c"; return 0; }
+  done
+  for c in google-chrome google-chrome-stable chromium chromium-browser microsoft-edge; do
+    have "$c" && { command -v "$c"; return 0; }
+  done
+  return 1
+}
+
+html_to_pdf_chrome() { # md pdf — pandoc → standalone HTML with print CSS → headless browser
+  local chrome; chrome="$(find_chrome)" || return 1
+  local tmp; tmp="$(mktemp -d)"
+  local html="$tmp/doc.html" out_abs
+  out_abs="$(cd "$(dirname "$2")" && pwd)/$(basename "$2")"
+  local title; title="$(basename "${1%.*}")"
+  pandoc "$1" "${COMMON[@]}" ${EXTRA[@]+"${EXTRA[@]}"} --embed-resources --resource-path="$(dirname "$1")" \
+    --metadata pagetitle="$title" ${CSS:+--css "$CSS"} -t html5 -o "$html" 2>/dev/null || { rm -rf "$tmp"; return 1; }
+  "$chrome" --headless=new --disable-gpu --no-pdf-header-footer --user-data-dir="$tmp/profile" \
+    --print-to-pdf="$out_abs" "file://$html" >/dev/null 2>&1 || "$chrome" --headless --disable-gpu \
+    --print-to-pdf-no-header --user-data-dir="$tmp/profile" --print-to-pdf="$out_abs" "file://$html" >/dev/null 2>&1
+  rm -rf "$tmp"
+  [[ -s "$out_abs" ]]
 }
 
 docx_to_pdf_libreoffice() { # docx pdf
@@ -104,6 +141,8 @@ to_pdf() { # in out
       pandoc "$in" "${COMMON[@]}" ${EXTRA[@]+"${EXTRA[@]}"} "${rp[@]}" --pdf-engine="$eng" -o "$out" 2>/dev/null && { echo "engine: $eng"; return 0; }
     fi
   done
+  # Headless Chrome/Edge/Chromium is on most machines and renders tables with borders via CSS.
+  if html_to_pdf_chrome "$in" "$out"; then echo "engine: HTML -> PDF via headless browser"; return 0; fi
   # Fallback: go through docx.
   local tmp; tmp="$(mktemp -d)"; local docx="$tmp/$(basename "${out%.*}").docx"
   to_docx "$in" "$docx"

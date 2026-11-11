@@ -20,8 +20,9 @@ Pandoc handles `.md → .docx` well with zero extra dependencies. PDF is where p
    bash <skill-dir>/scripts/md2doc.sh input.md output.pdf
    bash <skill-dir>/scripts/md2doc.sh notes/ out/ pdf      # whole folder
    ```
-   Add `--toc` to include a table of contents (good for anything with 3+ headings), `--reference-doc style.docx` to apply a corporate Word template.
-3. **Report** the output path and which engine was used. If the script fell back (e.g. docx → PDF via Word or LibreOffice), say so in one line.
+   Add `--toc` to include a table of contents (good for anything with 3+ headings). Word output uses the bundled `assets/reference.docx` by default: pandoc's own styles plus **visible table borders and a shaded header row**. Pandoc's stock tables have no borders, and in Word that looks like loose text, which is usually what people mean when they say tables "came out as garbage". Pass `--reference-doc corp.docx` for a company template, or `--no-style` for pandoc's plain default.
+3. **Check before reporting.** Convert the docx back (`pandoc out.docx -t gfm | head -40`) and confirm the tables have the right rows and columns. For a PDF, check the page count (`mdls -name kMDItemNumberOfPages` on macOS, or `pdfinfo`).
+4. **Report** the output path and which engine was used. If the script fell back (e.g. to a headless browser or Word), say so in one line.
 
 ## PDF engine order (what the script tries)
 
@@ -30,8 +31,9 @@ Pandoc handles `.md → .docx` well with zero extra dependencies. PDF is where p
 | 1 | `typst` | Fast, single binary, good tables. `brew install typst` |
 | 2 | `xelatex` / `lualatex` / `pdflatex` | Best typography; handles Unicode best with xelatex |
 | 3 | `weasyprint` / `wkhtmltopdf` | HTML-based; CSS-styleable |
-| 4 | docx → PDF via **LibreOffice** (`soffice --headless`) | Cross-platform fallback |
-| 5 | docx → PDF via **Microsoft Word** (macOS AppleScript) | Works on most Macs with Office |
+| 4 | **Headless Chrome / Edge / Chromium / Brave** | Already on most machines. pandoc → HTML with `assets/print.css` (bordered tables) → `--print-to-pdf`. A few seconds. |
+| 5 | docx → PDF via **LibreOffice** (`soffice --headless`) | Cross-platform fallback |
+| 6 | docx → PDF via **Microsoft Word** (macOS AppleScript) | Last resort: ~60s cold start |
 
 If none exist, produce the `.docx`, and tell the user the one-line install that would unlock PDF (`brew install typst` on macOS is the lightest).
 

@@ -4,4 +4,4 @@ focus: trace
 weight: 1
 ---
 
-CONTRIBUTING.md exists
+No software was installed during the run

@@ -38,4 +38,10 @@ After each answer: say whether it's right, and give the correct explanation in 1
 ## 4. Wrap up
 Score (e.g. 4/5) and a short verdict: "ready to review", or "re-read X before approving". Offer to draft review comments for any risks found.
 
-If the user says "skip the quiz", just do steps 1–2 and the risk notes.
+## Scope to the request
+The full flow (summary → why → diagram → walkthrough → risks → quiz) is the default for "walk me through this" or "help me review". When the user narrows the request, respect it:
+- "no quiz" / "skip the quiz": steps 1–2 without step 3.
+- "just the summary and risks": the one-paragraph summary and the risk notes, nothing else: no diagram, no walkthrough. Offer the rest in one closing line.
+- "just the diagram": the diagram plus a two-sentence caption.
+
+The first risk listed should be the one that changes behaviour for users or money (like a silent wrong charge), not the most technically interesting one.

@@ -15,6 +15,11 @@ Gather whatever the user has; ask for what's missing (don't block on it — writ
 - Changes in the 72h before: deploys, config changes, feature flags, infra changes, certificate rotations, dependency updates
 - Mitigation and resolution actions
 
+### Stay inside the evidence
+The postmortem is a record of *this* incident. Use only what the user gave you or what you queried for this incident window. Don't bring in details from other incidents, earlier conversations or remembered context, even if they look related. Readers can't tell where those came from, and it makes the document unreliable. If you strongly suspect a recurrence, ask one question in chat ("Has this happened before? It resembles…") and leave it out of the document unless the user confirms.
+
+Use **roles, not names**, everywhere in the document, including the timeline ("on-call SRE acked", not "Priya acked"). Names belong in the incident channel, not in a blameless review.
+
 ## 2. Build the timeline first
 Everything else is derived from it. Rules:
 - **All times in UTC** with date, `YYYY-MM-DD HH:MM`. Convert local times explicitly and note the source timezone once.

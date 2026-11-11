@@ -7,6 +7,9 @@ description: Prepare a private or internal repository to be published as open so
 
 Making a repo public is irreversible in practice: forks, caches and scrapers keep what you pushed. Secrets in **old commits** are the classic mistake — deleting a file doesn't remove it from history. This skill finds the problems first, fixes what it safely can, and lists what the human must decide.
 
+## Match the request
+If the user only asks a question ("is this safe to publish?"), stay **read-only**: scan, report, and offer the fixes. Don't create `.gitignore`, `.env.example`, LICENSE or anything else until they say so. If they ask you to add files or fix things, do that and still run the scan, because they'll want to know about blockers before going public.
+
 ## 1. Scan (read-only)
 Run the bundled scanner from the repo root:
 ```bash
@@ -20,8 +23,13 @@ Read every finding yourself. Classify each as: **real secret**, **internal refer
 ## 2. Handle secrets correctly
 For any real secret — even one that's "only in history":
 1. Tell the user to **rotate/revoke it first**. Rewriting history does not un-leak a key that's already been pushed anywhere.
-2. Then offer to purge it from history with `git filter-repo` (preferred) or BFG — show the command, and only run after confirmation, on a fresh clone, since it rewrites every commit hash.
-3. Move config to environment variables and add a `.env.example` with placeholder values.
+2. Then offer to purge it from history with `git filter-repo` (preferred) or BFG — show the command, and only run after confirmation, on a **fresh clone** (`git clone --mirror`), since it rewrites every commit hash. Never suggest `reflog expire` / `gc --prune=now` in the user's only copy without a backup.
+3. If the repo has very few commits, starting a fresh history (`rm -rf .git && git init`, one clean commit) is often simpler than filter-repo. Say so.
+4. Anything already pushed to a remote may survive in forks, clones, CI caches and GitHub's own cache of old commits. Rotation is the real fix, and the history purge is just cleanup.
+5. Move config to environment variables and add a `.env.example` with placeholder values.
+
+## 2b. Ownership
+Before suggesting a license holder, ask who owns the code. If the README, hostnames, package names or emails point to a company ("acme", an internal domain, a work email in the commits), the copyright probably belongs to the employer or client. Open-sourcing it may need their approval, and the LICENSE should name them. Raise this as a NEEDS DECISION item.
 
 ## 3. Add the community files
 Ask which license if not specified (suggest MIT for "just let people use it", Apache-2.0 if patents matter, GPL-3.0 if they want copyleft). Create, if missing:

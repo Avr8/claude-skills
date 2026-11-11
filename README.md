@@ -4,47 +4,45 @@ Practical [Agent Skills](https://www.anthropic.com/news/skills) for Claude Code 
 
 Each skill is a folder with a `SKILL.md` and, where useful, small scripts you can read in a minute. No network calls and no telemetry, and nothing runs that the README doesn't list.
 
-## Install
+## Install only what you need
 
-**Claude Code: one line per skill (Claude Code 2.1.275+)**
+Every skill installs on its own. Pick any of these routes, then copy the line for each skill you want from the [Skills](#skills) table.
+
+### 1. Claude Code plugin (recommended: updates come through `/plugin`)
 ```
 /plugin install md-to-doc --marketplace Avr8/claude-skills
-/plugin install anti-slop-editor --marketplace Avr8/claude-skills
-/plugin install stacked-pr-splitter --marketplace Avr8/claude-skills
-/plugin install pr-explainer-quiz --marketplace Avr8/claude-skills
-/plugin install oss-ready --marketplace Avr8/claude-skills
-/plugin install incident-postmortem --marketplace Avr8/claude-skills
-/plugin install terraform-plan-reviewer --marketplace Avr8/claude-skills
-/plugin install codebase-viva-prep --marketplace Avr8/claude-skills
 ```
+Each skill is a separate plugin, so this installs **only** `md-to-doc`. On Claude Code older than 2.1.275, add the marketplace once with `/plugin marketplace add Avr8/claude-skills`, then run `/plugin install md-to-doc@avr8-skills`. You can also browse and toggle skills interactively with `/plugin`.
 
-**Older Claude Code: add the marketplace, then pick skills**
-```
-/plugin marketplace add Avr8/claude-skills
-/plugin install md-to-doc@avr8-skills
-```
-Install only the skills you want, or browse them with `/plugin`.
-
-**Claude Code: manual**
+### 2. Install script (no plugin system; works for any agent that reads a skills folder)
 ```bash
-git clone https://github.com/Avr8/claude-skills
-cp -r claude-skills/skills/<skill-name> ~/.claude/skills/
+curl -fsSL https://raw.githubusercontent.com/Avr8/claude-skills/main/install.sh -o install.sh
+less install.sh                                # it's short, so read it first
+bash install.sh --list                         # see what's available
+bash install.sh md-to-doc oss-ready            # → ~/.claude/skills (all projects)
+bash install.sh --project terraform-plan-reviewer   # → ./.claude/skills (this repo only, commit it for your team)
+bash install.sh --dir ~/.agents/skills md-to-doc    # any other skills folder
 ```
+It copies only the named skill folders, without their test cases, and never overwrites without `--force`.
 
-**Claude.ai**: zip a skill folder and upload it under *Settings → Capabilities → Skills*.
+### 3. Claude.ai
+Download the zip for the skill you want from the [latest release](https://github.com/Avr8/claude-skills/releases/latest) (`md-to-doc.zip`, `oss-ready.zip`, …), then upload it under *Settings → Capabilities → Skills*.
+
+### Uninstall
+`/plugin uninstall <skill>`. If you used the script, delete `~/.claude/skills/<skill>`.
 
 ## Skills
 
-| Skill | What it does | Runs locally |
-|---|---|---|
-| [md-to-doc](skills/md-to-doc) | Markdown → Word/PDF with tables intact. Detects which PDF engine you have and falls back through typst → LaTeX → weasyprint → LibreOffice → MS Word | `pandoc`, plus whichever PDF engine it finds |
-| [anti-slop-editor](skills/anti-slop-editor) | Removes the patterns that make writing read as AI-generated (filler, hedges, stock words, em-dash confetti) and keeps the author's voice | nothing |
-| [stacked-pr-splitter](skills/stacked-pr-splitter) | Turns a huge branch into a stack of small PRs that each build and pass, and verifies the stack matches the original diff exactly | `git` (asks before pushing) |
-| [pr-explainer-quiz](skills/pr-explainer-quiz) | Explains a PR with a Mermaid diagram and risk notes, then quizzes you so "LGTM" means something | `git`, `gh` (read-only) |
-| [oss-ready](skills/oss-ready) | Pre-publication sweep: secrets in code *and history*, internal hostnames, emails, licenses, community files | `scripts/scan.sh` (read-only; uses gitleaks if installed) |
-| [incident-postmortem](skills/incident-postmortem) | Turns incident threads, alerts and metrics into a blameless postmortem with a UTC timeline and owned action items | nothing (queries observability tools only if you have them connected) |
-| [terraform-plan-reviewer](skills/terraform-plan-reviewer) | Reviews Terraform/OpenTofu/Terragrunt plans: data-loss replaces, why each replace happens, IAM widening, `0.0.0.0/0`, disabled protections | `scripts/plan_summary.py` (stdlib only; never runs `apply`) |
-| [codebase-viva-prep](skills/codebase-viva-prep) | Gets you ready to defend a codebase: architecture map, predicted questions with answers, mock viva, live-modification drills | nothing |
+| Skill | What it does | Runs locally | Install |
+|---|---|---|---|
+| [md-to-doc](skills/md-to-doc) | Markdown → Word/PDF with tables intact. Detects which PDF engine you have and falls back through typst → LaTeX → weasyprint → headless Chrome → LibreOffice → MS Word. Word output gets bordered tables | `pandoc`, plus whichever PDF engine it finds | `/plugin install md-to-doc --marketplace Avr8/claude-skills` |
+| [anti-slop-editor](skills/anti-slop-editor) | Removes the patterns that make writing read as AI-generated (filler, hedges, stock words, em-dash confetti) and keeps the author's voice | nothing | `/plugin install anti-slop-editor --marketplace Avr8/claude-skills` |
+| [stacked-pr-splitter](skills/stacked-pr-splitter) | Turns a huge branch into a stack of small PRs that each build and pass, and verifies the stack matches the original diff exactly | `git` (asks before pushing) | `/plugin install stacked-pr-splitter --marketplace Avr8/claude-skills` |
+| [pr-explainer-quiz](skills/pr-explainer-quiz) | Explains a PR with a Mermaid diagram and risk notes, then quizzes you so "LGTM" means something | `git`, `gh` (read-only) | `/plugin install pr-explainer-quiz --marketplace Avr8/claude-skills` |
+| [oss-ready](skills/oss-ready) | Pre-publication sweep: secrets in code *and history*, internal hostnames, emails, licenses, community files | `scripts/scan.sh` (read-only; uses gitleaks if installed) | `/plugin install oss-ready --marketplace Avr8/claude-skills` |
+| [incident-postmortem](skills/incident-postmortem) | Turns incident threads, alerts and metrics into a blameless postmortem with a UTC timeline and owned action items | nothing (queries observability tools only if you have them connected) | `/plugin install incident-postmortem --marketplace Avr8/claude-skills` |
+| [terraform-plan-reviewer](skills/terraform-plan-reviewer) | Reviews Terraform/OpenTofu/Terragrunt plans: data-loss replaces, why each replace happens, IAM widening, `0.0.0.0/0`, disabled protections | `scripts/plan_summary.py` (stdlib only; never runs `apply`) | `/plugin install terraform-plan-reviewer --marketplace Avr8/claude-skills` |
+| [codebase-viva-prep](skills/codebase-viva-prep) | Gets you ready to defend a codebase: architecture map, predicted questions with answers, mock viva, live-modification drills | nothing | `/plugin install codebase-viva-prep --marketplace Avr8/claude-skills` |
 
 ## Quality bar
 
