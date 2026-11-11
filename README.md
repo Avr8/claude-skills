@@ -8,8 +8,6 @@ The underlying idea: **agent instructions are engineering artifacts.** They can 
 
 Each skill is a folder with a `SKILL.md` and, where useful, small scripts you can read in a minute. No network calls, no telemetry, and nothing runs that the README doesn't list. Anything irreversible or visible to others (push, apply, rewriting history, publishing) needs your approval.
 
-**See it work:** [terraform-plan-reviewer on a plan that would wipe a database](docs/demo-terraform-plan-reviewer.md)
-
 ## Install only what you need
 
 Every skill installs on its own. Pick any of these routes, then copy the line for each skill you want from the [Skills](#skills) table.
