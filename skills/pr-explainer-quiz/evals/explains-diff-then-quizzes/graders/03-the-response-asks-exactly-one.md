@@ -4,4 +4,4 @@ focus: trace
 weight: 1
 ---
 
-The response asks exactly one quiz question and waits rather than listing all questions with answers
+The response asks exactly one quiz question, specific to this diff, and stops

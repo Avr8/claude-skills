@@ -4,4 +4,4 @@ focus: trace
 weight: 1
 ---
 
-The response recommends prevent_destroy or a delete lock on the database
+The response recommends prevent_destroy and/or a delete lock on the database

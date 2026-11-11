@@ -37,7 +37,7 @@ Files you write must be ready to publish: no leftover placeholders like `<EMAIL>
 Ask which license if not specified (suggest MIT for "just let people use it", Apache-2.0 if patents matter, GPL-3.0 if they want copyleft). Create, if missing:
 - `LICENSE` (exact SPDX text, correct year + holder name)
 - `README.md` — what it is, a 30-second quickstart, requirements, license badge. Rewrite internal jargon.
-- `CONTRIBUTING.md` — how to set up, run tests, PR expectations
+- `CONTRIBUTING.md` — how to set up and run *this* repo: read the code for the real entry point and every environment variable or config key it reads (e.g. `os.environ["API_KEY"]`), and list them by name with placeholder values. Then tests and PR expectations
 - `SECURITY.md` — how to report vulnerabilities privately (GitHub private vulnerability reporting or an email)
 - `CODE_OF_CONDUCT.md` — Contributor Covenant, if they want one
 - `.gitignore` entries for env files, build output, editor folders

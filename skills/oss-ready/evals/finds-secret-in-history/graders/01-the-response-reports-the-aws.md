@@ -4,4 +4,4 @@ focus: trace
 weight: 1
 ---
 
-The response reports the AWS access key (AKIA...) found in an earlier commit even though it is no longer in config.py
+The response reports the AWS key (AKIA...) found in an earlier commit even though it is not in the current files

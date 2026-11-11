@@ -14,6 +14,7 @@ Make writing sound like a specific person wrote it on purpose. The goal is not "
 3. **Keep the voice.** If the author writes casually, stay casual. If they use British spelling, keep it. Don't swap their vocabulary for yours.
 4. **Preserve facts exactly** — numbers, names, links, technical terms, quotes. Never invent specifics to make prose "concrete"; if a claim needs an example the author didn't give, mark it `[example?]`.
 5. **Don't resolve ambiguity by guessing.** If the original is vague about the actual news ("a new journey": leaving? promoted? new team?), keep a placeholder for it (`[the news: new role at X / leaving Y?]`) and ask in one line. Don't pick one reading and write it as fact. The same goes for feelings and outcomes the author never stated ("I'm proud of…", "I learned so much…").
+   Placeholders are only for facts that are genuinely missing. Never use one in place of something the author actually said: rewrite their sentences instead of deleting them. If they asked to keep the length, the edited text without placeholders should still be within about 20% of the original.
 6. **Don't swap one tell for another.** Replacing "thrilled to share" with "Some news:" or "Big update:" is still a template opener. Start with the fact itself.
 
 ## What to look for
